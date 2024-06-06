@@ -8,19 +8,18 @@ from selenium.webdriver.support.ui import Select
 from datetime import datetime
 import random #selenium 설정 함수
 
-def load_list_from_txt(file_path): 
- try: 
-    with open(file_path, 'r') as file: 
-        contents = file.readlines() # 개행문자, 공백 제거
-        contents = [line.strip() for line in contents]
-        return contents 
-     # list.txt 파일로부터 데이터 불러오기
- file_path = 'list.txt' 
- file_content = load_list_from_txt(file_path)
-if file_content:
-    vandalism.extend(file_content) # 기존 리스트에 추가 
-    print(vandalism) # vandalism 값이 list.txt가 제대로 적용되었는지 확인
-    # print 값의 시작이 '감지할 반달성 키워드' 주석의 코드와 일치할 경우 정상 작동
+def read_vandalism_value_from_file(file_path):
+    with open(file_path, 'r') as file:
+        vandalism_value = file.read().strip()
+    return vandalism_value
+
+def replace_value_elsewhere(vandalism_value):
+    # 다른 곳에 vandalism 값을 적용하는 코드를 작성하세요.
+    pass
+
+file_path = "list.txt"
+vandalism_value = read_vandalism_value_from_file(file_path)
+replace_value_elsewhere(vandalism_value)
 
 
 now = datetime.now()
