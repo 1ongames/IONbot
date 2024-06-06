@@ -16,11 +16,13 @@ imitated seed의 봇입니다. IONbot 닉네임의 사용자의 경우, 대부�
 ## 시작
 
  1. auto.py를 실행하여 자동으로 pip를 다운로드하십쇼. 수동으로 다운로드하셔도 됩니다. 오류가 뜬다면 다음 세 줄의 코드를 각각 입력하세요.
+
 pip install selenium
 
 pip install webdriver-manager
 
 pip install schedule
+
  2. main.py를 실행하시고 wiki_username과 wiki_password를 입력하십쇼. data.txt에 자동으로 저장됩니다.
  3. 만약 백업툴을 사용하신다면 기본 병아리의 liberty를 사용하셔야합니다.
 # 브랜치 특징
