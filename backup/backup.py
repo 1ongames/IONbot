@@ -3,21 +3,44 @@ pip install requests schedule
 import requests
 import sqlite3
 import schedule
+import sqlite3
+import schedule
 import time
 from datetime import datetime
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 
 def fetch_haneulwiki_pages():
-    url = "https://haneul.wiki/api.php?action=query&list=allpages&apnamespace=0&format=json"
-    response = requests.get(url)
-    data = response.json()
-    pages = data['query']['allpages']
-    return [{"title": page['title'], "content": fetch_page_content(page['title'])} for page in pages if "하늘위키" in page['title']]
+    options = Options()
+    options.headless = True  # 헤드리스 모드로 실행
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
-def fetch_page_content(title):
-    # 이 함수는 각 문서의 내용을 가져오는 로직을 포함해야 합니다.
-    # 여기서는 예시로 하드코딩된 데이터를 사용합니다.
-    # 실제로는 API 호출이나 웹 스크래핑 등을 통해 내용을 가져와야 합니다.
-    return f"내용: {title}"
+    driver.get("https://haneul.wiki")
+
+    # 검색 창을 찾아 "하늘위키:" 입력 후 엔터
+    search_box = driver.find_element(By.XPATH, "//input[@type='search']")  # 검색창의 XPATH
+    search_box.send_keys("하늘위키:")
+    search_box.send_keys(Keys.RETURN)
+    time.sleep(2)  # 페이지가 로드될 시간을 줌
+
+    # 결과에서 문서의 제목과 RAW 내용을 가져옴
+    pages = []
+    links = driver.find_elements(By.XPATH, "//div[@class='search-result']//a")  # 결과 링크의 XPATH
+    for link in links:
+        title = link.text
+        link.click()
+        time.sleep(1)  # 문서 페이지가 로드될 시간을 줌
+        raw_content = driver.find_element(By.XPATH, "//pre").text  # RAW 내용의 XPATH
+        pages.append({"title": title, "content": raw_content})
+        driver.back()
+        time.sleep(1)  # 검색 결과 페이지로 돌아갈 시간을 줌
+
+    driver.quit()
+    return pages
 
 def store_in_db(pages):
     conn = sqlite3.connect('haneul_data.db')
