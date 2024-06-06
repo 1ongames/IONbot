@@ -14,10 +14,6 @@ def load_list_from_txt(file_path):
         contents = file.readlines() # 개행문자, 공백 제거
         contents = [line.strip() for line in contents]
         return contents 
- except FileNotFoundError: print("File not found.")
-     return None 
- except Exception as e: print("An error occurred:", e) 
-return None 
 
 now = datetime.now()
 
