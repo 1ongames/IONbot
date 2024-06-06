@@ -54,10 +54,10 @@ def job():
     store_in_db(pages)
     print(f"Job finished at {datetime.now()}")
 
-# 매일 특정 시간에 작업을 예약합니다 (예: 자정 00:00)
+'''# 매일 특정 시간에 작업을 예약합니다 (예: 자정 00:00)
 import schedule
-schedule.every().day.at("00:00").do(job)
-
+schedule.every().day.at("00:00").do(job)'''
+ # 위 코드는 필요할 경우 활성화하세요
 # 스케줄러를 실행합니다
 while True:
     schedule.run_pending()
